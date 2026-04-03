@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
 import { auth } from '../../Firebase/firebase.init';
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 
 const SignUp = () => {
@@ -24,7 +24,8 @@ const SignUp = () => {
                 setErrorMassage(error.message)
             })
     }
-
+    const [showPassword, setShowPassword] = useState(false)
+    console.log(showPassword)
     return (
 
         <div className="card bg-base-100 w-full mx-auto max-w-sm shrink-0 shadow-2xl mt-10">
@@ -36,7 +37,7 @@ const SignUp = () => {
                     <label className="input validator">
                         
                         <input
-                            type="password"
+                            type={showPassword ? 'text' : 'password'}
                             name='password'
                             required
                             placeholder="Password"
@@ -44,7 +45,8 @@ const SignUp = () => {
                             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                             title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
                         />
-                        <FaEye />
+                        <button onClick={()=>setShowPassword(!showPassword)}> {showPassword ? <FaEye /> : <FaEyeSlash />}</button>
+
 
                     </label>
                     <p className="validator-hint hidden">
