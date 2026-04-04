@@ -14,7 +14,7 @@ const Login = () => {
         setErrorMassage('')
         signInWithEmailAndPassword(auth, email, password)
             .then(result => {
-                console.log(result.user)
+                console.log(result)
                 setSuccess(true)
             })
             .catch(error => {
