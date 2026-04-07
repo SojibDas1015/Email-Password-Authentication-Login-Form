@@ -1,17 +1,19 @@
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import React, { useRef, useState } from 'react';
+import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from 'firebase/auth';
 import { auth } from '../../Firebase/firebase.init';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useState } from 'react';
 
 
 const SignUp = () => {
     const [errorMassage, setErrorMassage] = useState('');
-    const [success, setSuccess] = useState(false)
+    const [success, setSuccess] = useState (false)
     const handleForm = (event) => {
         event.preventDefault()
         const email = event.target.email.value;
         const password = event.target.password.value
         const termsCondition = event.target.terms.checked
+        const name = event.target.name.value
+        const photourl = event.target.photo.value
         setSuccess(false)
         setErrorMassage('')
         if(!termsCondition){
@@ -22,9 +24,23 @@ const SignUp = () => {
             .then(result => {
                 console.log(result.user.emailVerified)
                 setSuccess(true)
+                const userInfo = {
+                    displayName: name,
+                    photoURL: photourl
+                }
+                updateProfile(result.user, userInfo)
+                .then(result => {
+                    console.log(result)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
                 sendEmailVerification(auth.currentUser)
                 .then(() => {
                     alert('verify link send please check your email')
+                })
+                .catch(error=> {
+                    console.log(error)
                 })
             })
             .catch(error => {
@@ -41,6 +57,10 @@ const SignUp = () => {
                 <form onSubmit={handleForm} className="fieldset">
                     <label className="label">Email</label>
                     <input type="email" name='email' className="input" placeholder="Email" />
+                    <label className="label">Name</label>
+                    <input type="text" name='name' className="input" placeholder="name" />
+                    <label className="label">Photo Url</label>
+                    <input type="text" name='photo' className="input" placeholder="photo" />
                     <label className="input validator">
 
                         <input

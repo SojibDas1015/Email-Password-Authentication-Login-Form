@@ -15,7 +15,7 @@ const Signin = () => {
         setErrorMassage('')
         signInWithEmailAndPassword(auth, email, password)
         .then(result => {
-            console.log(result.user.emailVerified)
+            console.log(result)
             if(result.user.emailVerified == true){
                 alert('Welcome to Our Website')
             }
