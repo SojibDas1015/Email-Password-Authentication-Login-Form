@@ -7,7 +7,6 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 const SignUp = () => {
     const [errorMassage, setErrorMassage] = useState('');
     const [success, setSuccess] = useState(false)
-    const emailref = useRef();
     const handleForm = (event) => {
         event.preventDefault()
         const email = event.target.email.value;
@@ -21,7 +20,7 @@ const SignUp = () => {
         }
         createUserWithEmailAndPassword(auth, email, password)
             .then(result => {
-                console.log(result)
+                console.log(result.user.emailVerified)
                 setSuccess(true)
                 sendEmailVerification(auth.currentUser)
                 .then(() => {
